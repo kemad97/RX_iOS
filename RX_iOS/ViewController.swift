@@ -10,25 +10,48 @@ import RxSwift
 import RxCocoa
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak var switchControl: UISwitch!
-    @IBOutlet weak var label: UILabel!
+    
+    @IBOutlet weak var debounceLabel: UILabel!
+    
+    @IBOutlet weak var throttleLabel: UILabel!
+    
+    @IBOutlet weak var btnThrottle: UIButton!
+    @IBOutlet weak var btnDebounce: UIButton!
     
     private let disposeBag = DisposeBag()
-
+    private var debounceCounter = 0
+    private var throttleCounter = 0
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        label.text = switchControl.isOn ? "ON" : "OFF"
+        debounceLabel.text = "0"
+        throttleLabel.text = "0"
         
-        switchControl.rx.isOn
-                .subscribe(onNext: { [weak self] isOn in
-                    self?.label.text = isOn ? "ON" : "OFF"
-                })
-                .disposed(by: disposeBag)
-        }
-
-
+        btnDebounce.rx.tap
+            .debounce(.seconds(2), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.debounceCounter += 1
+                self.debounceLabel.text = " \(self.debounceCounter)"
+                
+            }).disposed (by : disposeBag)
+        
+           
+        
+        btnThrottle.rx.tap
+            .throttle(.seconds(2), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.throttleCounter += 1
+                self.throttleLabel.text = " \(self.throttleCounter)"
+            }).disposed(by: disposeBag)
+            
+    }
+    
 }
+
+
 
