@@ -49,6 +49,16 @@ class ViewController: UIViewController {
                 self.throttleLabel.text = " \(self.throttleCounter)"
             }).disposed(by: disposeBag)
             
+        
+        Observable.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+            .map { $0 * 5 }         
+            .filter { $0 % 2 == 0 }
+            .skip(2)
+            .take(10)
+            .subscribe(onNext: { value in
+                print(value)
+            })
+            .disposed(by: disposeBag)
     }
     
 }
