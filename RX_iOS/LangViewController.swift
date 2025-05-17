@@ -20,9 +20,10 @@ class LangViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         languages
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .observeOn(MainScheduler.instance)
+            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .observe(on: MainScheduler.instance)
             .bind(to: languageTableView.rx.items(
                 cellIdentifier: "Cell",
                 cellType: CustomTableViewCell.self
@@ -36,11 +37,15 @@ class LangViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         languageTableView.rx.modelSelected(String.self).subscribe { item in
-            print("Selected language: \(item.element!)")
+            
+            print("Selected : \(item.element!)")
+            
         }.disposed(by: disposeBag)
         
         languageTableView.rx.itemDeleted.subscribe { indexPath in
-            print("Deleted item at row: \(indexPath.element!.row)")
+            
+            print("Deleted: \(indexPath.element!.row)")
+            
         }.disposed(by: disposeBag)
     }
     
