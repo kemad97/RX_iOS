@@ -50,8 +50,8 @@ class ViewController: UIViewController {
             }).disposed(by: disposeBag)
             
         
-        Observable.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-            .map { $0 * 5 }         
+        Observable.from ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+            .map { $0 * 5 }
             .filter { $0 % 2 == 0 }
             .skip(2)
             .take(10)
