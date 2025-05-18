@@ -37,6 +37,7 @@ class UserViewModel: UserViewProtocol {
     
     func fetchUsers() {
         usersSubject.onNext(userList)
+      
         
         Observable.just(())
                    .delay(.seconds(3), scheduler: MainScheduler.instance)

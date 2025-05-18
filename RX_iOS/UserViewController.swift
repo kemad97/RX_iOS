@@ -30,7 +30,6 @@ class UserViewController: UIViewController {
         UsersTableView.allowsSelection = false
         
         
-        viewModel.fetchUsers()
         
         viewModel.users
             .drive(UsersTableView.rx.items(cellIdentifier: "Cell")) { index, user, cell in
@@ -38,6 +37,8 @@ class UserViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        viewModel.fetchUsers()
+
         
         UsersTableView.rx.itemDeleted
             .subscribe(onNext: { [weak self] indexPath in
