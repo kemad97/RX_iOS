@@ -45,6 +45,23 @@ class UserViewController: UIViewController {
                 self?.viewModel.deleteUser(at: indexPath.row)
             })
             .disposed(by: disposeBag)
+        
+        replaySubjectInit()
+    }
+    
+    
+    func replaySubjectInit() {
+        let repSubj = ReplaySubject<Int>.create(bufferSize: 2)
+        
+        repSubj.onNext(1)
+        repSubj.onNext(2)
+        repSubj.onNext(3)
+        
+        repSubj
+            .subscribe(onNext: { value in
+                print(" recieved: \(value)")
+            })
+            .disposed(by: disposeBag)
     }
 }
 
